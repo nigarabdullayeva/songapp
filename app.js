@@ -63,7 +63,26 @@ function multiSearch(){
 }
 
 function rangeSearch() {
-  console.log ("reach search....")
+  inquirer.prompt([
+      {
+          name:"beginning",
+          type: "number",
+          message: "starting position?"
+      },
+      {
+        name:"end",
+        type: "number",
+        message: "ending position?"
+    }
+  ]).then(answers => {
+      connection.query("SELECT position,song,artist,year FROM top5000 WHERE position BETWEEN ? AND ?",
+      [answers.beginning, answers.end],
+      (err, results) => {
+        if(err) throw err
+        console.table(results)
+        initialPromts()
+  })
+})
 }
 
 function songSearch() {
