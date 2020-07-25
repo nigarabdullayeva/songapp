@@ -25,13 +25,13 @@ function initialPromts() {
         }
     ]).then(answer => {
         switch(answer.action) {
-            case "Finding by artist":
+            case "Artist search":
                 artistSearch();
                 break;
-            case "Multi searching":
+            case "Multisearch":
                 multiSearch();
                 break;
-            case "Rnge search":
+            case "Range Search":
                 rangeSearch();
                 break;
             case "Song search":
@@ -44,11 +44,22 @@ function initialPromts() {
 
 
 function artistSearch(){
- console.log("Searching artist...")
+inquirer.prompt ([{
+    message: "Which artist are you looking for?",
+    name: "artist",
+}]).then(answer =>{
+    connection.query(`SELECT position, song, year FROM top5000 WHERE ?`,
+    {artist: answer.artist},
+    (err, results) => {
+        if(err) throw err
+        console.table(results)
+        initialPromts()
+    })
+})
 }
 
 function multiSearch(){
-  console.log ("Multisearch....")
+ 
 }
 
 function rangeSearch() {
