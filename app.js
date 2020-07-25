@@ -92,5 +92,17 @@ function rangeSearch() {
 }
 
 function songSearch() {
-    console.log ("Searching song....")
+   inquirer.prompt([
+       {
+           message: "Which song do you want to search?",
+           name: "song"
+       }
+   ]).then(answer =>{
+       connection.query(`SELECT position, artist, song, year FROM top5000 WHERE song LIKE "%${answer.song}%"`,
+       (err, results) => {
+        if(err) throw err
+        console.table(results)
+        initialPromts()
+  })
+   })
 }
