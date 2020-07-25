@@ -59,6 +59,12 @@ inquirer.prompt ([{
 }
 
 function multiSearch(){
+    connection.query("SELECT artist, count(*) as countNum FROM top5000 GROUP BY artist HAVING countNum >1 ORDER BY countNum DESC",
+    (err, results) =>{
+        if (err) throw err
+        console.table(results)
+        initialPromts()
+    })
  
 }
 
